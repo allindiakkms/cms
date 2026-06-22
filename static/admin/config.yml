@@ -39,6 +39,20 @@ collections:
         widget: string
         required: false
         hint: "Upload through the Admin Portal, copy the R2 URL, and paste it here."
+      - label: Image Fit
+        name: image_fit
+        widget: select
+        options: [auto, cover, contain]
+        default: auto
+        required: false
+        hint: "Use contain for posters, portraits, screenshots, or small images; cover for wide banner photos."
+      - label: Image Position
+        name: image_position
+        widget: select
+        options: [center, top, bottom, left, right]
+        default: center
+        required: false
+        hint: "Crop anchor used when Image Fit is cover."
       - { label: Show on Home Slider, name: show_in_slider, widget: boolean, default: false }
       - { label: Body, name: body, widget: markdown }
 

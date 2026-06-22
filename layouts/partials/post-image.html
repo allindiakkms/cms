@@ -20,7 +20,9 @@
 {{ $loading := .loading | default "lazy" }}
 {{ $requestedFit := .fit | default $page.Params.image_fit | default "auto" }}
 {{ $fit := cond (eq $requestedFit "contain") "contain" "cover" }}
-{{ $position := .position | default $page.Params.image_position | default "center" }}
+{{ $requestedPosition := .position | default $page.Params.image_position | default "center" }}
+{{ $allowedPositions := slice "center" "top" "bottom" "left" "right" }}
+{{ $position := cond (in $allowedPositions $requestedPosition) $requestedPosition "center" }}
 {{ $imageClass := printf "content-image content-image--fit-%s content-image--pos-%s" $fit $position }}
 {{ $imageStyle := printf "--image-fit: %s; --image-position: %s;" $fit $position }}
 
