@@ -1,0 +1,7 @@
+# Security-sensitive and deployment files require owner review.
+/.github/ @allindiakkms
+/static/admin/ @allindiakkms
+/hugo.toml @allindiakkms
+/config/ @allindiakkms
+/layouts/ @allindiakkms
+/assets/ @allindiakkms
