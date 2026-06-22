@@ -1,21 +1,21 @@
 ---
-title: "The State - V.I.Lenin"
-slug: "the-state-lenin"
+title: The State - V.I.Lenin
+slug: the-state-lenin
 date: 2024-12-15T12:00:00+05:30
 draft: false
-description: "An analysis of the severe price crash in ball copra and coconut products, the impact of global trade policies, and the demands raised by AIKKMS."
-author: "AIKKMS"
-categories: [""]
-tags: [""]
-image: "https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/3d3122cf-9352-42b4-9fb1-26d5d2e5e729-Lenin_in_1920.jpg"
-show_in_slider: true
+description: An analysis of the severe price crash in ball copra and coconut products, the impact of global trade policies, and the demands raised by AIKKMS.
+author: AIKKMS
+categories:
+  - ''
+tags:
+  - ''
+image: https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/3d3122cf-9352-42b4-9fb1-26d5d2e5e729-Lenin_in_1920.jpg
+show_in_slider: false
 ---
 
+**_This article was published in ‘Peasants’ Voice’, (Vol.1. No.2) the then organ of AIKKMS_**
 
-
-***This article was published in ‘Peasants’ Voice’, (Vol.1. No.2) the then organ of AIKKMS***
-
-*(Great Philosopher, architect of November Socialist Revolution and one of the Marxist authorities Great V.I.Lenin gave a lecture to Sverdlov University Students on the question of State. It was such a vital question that success of November Revolution depended on clearance of the confusion on state even among communist. In view of Indian Socialist Revolution without which the peasantry of India cannot be relieved from their misery excerpts from the above great speech is given here.)*
+_(Great Philosopher, architect of November Socialist Revolution and one of the Marxist authorities Great V.I.Lenin gave a lecture to Sverdlov University Students on the question of State. It was such a vital question that success of November Revolution depended on clearance of the confusion on state even among communist. In view of Indian Socialist Revolution without which the peasantry of India cannot be relieved from their misery excerpts from the above great speech is given here.)_
 
 ## A Lecture Delivered at the Sverdlov University
 
