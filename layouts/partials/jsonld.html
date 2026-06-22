@@ -1,0 +1,35 @@
+{{ if .IsPage }}
+{{ $section := .Section }}
+{{ if or (eq $section "articles") (eq $section "news") }}
+{{ $data := dict
+  "@context"      "https://schema.org"
+  "@type"         "Article"
+  "headline"      .Title
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "dateModified"  (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+  "author"        (dict "@type" "Person" "name" (default "Admin" .Params.author))
+  "url"           .Permalink
+  "description"   (default "" .Description)
+}}
+{{ if .Params.image }}
+  {{ $imgURL := .Params.image }}
+  {{ if not (hasPrefix $imgURL "http") }}
+    {{ $imgURL = $imgURL | absURL }}
+  {{ end }}
+  {{ $data = merge $data (dict "image" $imgURL) }}
+{{ end }}
+<script type="application/ld+json">{{ $data | jsonify | replaceRE `</` `<\/` | safeJS }}</script>
+{{ else if eq $section "events" }}
+{{ $data := dict
+  "@context"    "https://schema.org"
+  "@type"       "Event"
+  "name"        .Title
+  "startDate"   (default "" .Params.event_date)
+  "endDate"     (default "" .Params.event_end_date)
+  "location"    (dict "@type" "Place" "name" (default "" .Params.event_location))
+  "url"         .Permalink
+  "description" (default "" .Description)
+}}
+<script type="application/ld+json">{{ $data | jsonify | safeJS }}</script>
+{{ end }}
+{{ end }}

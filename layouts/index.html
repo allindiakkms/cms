@@ -1,0 +1,213 @@
+{{ define "main" }}
+{{ $s := hugo.Data.settings }}
+
+{{ $allNews     := (where site.RegularPages "Section" "news").ByLastmod.Reverse }}
+{{ $allArticles := (where site.RegularPages "Section" "articles").ByLastmod.Reverse }}
+{{ $articleGroups := $allArticles.GroupByLastmod "January 2006" }}
+{{ $featuredArticle := "" }}
+{{ with index $articleGroups 0 }}
+  {{ $latestMonthArticles := .Pages.ByLastmod.Reverse }}
+  {{ range $latestMonthArticles }}
+    {{ if and (not $featuredArticle) (eq .Params.priority "primary") }}
+      {{ $featuredArticle = . }}
+    {{ end }}
+  {{ end }}
+  {{ if not $featuredArticle }}
+    {{ $featuredArticle = index $latestMonthArticles 0 }}
+  {{ end }}
+{{ end }}
+
+{{/* ── Hero Slider: marked items first, fallback to latest ───────────────── */}}
+{{ $markedNews     := where $allNews "Params.show_in_slider" true }}
+{{ $markedArticles := where $allArticles "Params.show_in_slider" true }}
+{{ $sliderNews     := cond (gt (len $markedNews) 0) (first 3 $markedNews) (first 3 $allNews) }}
+{{ $sliderArticles := cond (gt (len $markedArticles) 0) (first 3 $markedArticles) (first 3 $allArticles) }}
+{{ $sliderItems    := $sliderNews | append $sliderArticles }}
+
+<section class="home{{ if eq .Lang "hi" }} hindi-content{{ end }}">
+
+  <div class="hero-slider" id="heroSlider">
+    <div class="hero-slider-track" id="heroTrack">
+      {{ range $i, $p := $sliderItems }}
+      <div class="hero-slide{{ if eq $i 0 }} is-active{{ end }}"
+           data-index="{{ $i }}">
+        {{ with $p.Params.image }}
+          <div class="hero-slide-media">
+            {{ partial "post-image.html" (dict "page" $p "src" . "width" "1600" "alt" $p.Title "loading" "eager") }}
+          </div>
+        {{ end }}
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-slide-content">
+          <span class="hero-slide-chip">{{ i18n $p.Section | default ($p.Section | title) }}</span>
+          <h2 class="hero-slide-title">
+            <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+          </h2>
+          {{ with $p.Description }}
+            <p class="hero-slide-desc">{{ . | truncate 140 }}</p>
+          {{ end }}
+          <a class="hero-slide-cta" href="{{ $p.RelPermalink }}">{{ i18n "read_article" }}</a>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+
+    {{/* Prev / Next buttons */}}
+    <button class="hero-nav hero-nav--prev" id="heroPrev" aria-label="Previous slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="hero-nav hero-nav--next" id="heroNext" aria-label="Next slide">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+    {{/* Dot indicators */}}
+    <div class="hero-dots" id="heroDots">
+      {{ range $i, $p := $sliderItems }}
+      <button class="hero-dot{{ if eq $i 0 }} is-active{{ end }}"
+              data-index="{{ $i }}"
+              aria-label="Go to slide {{ add $i 1 }}"></button>
+      {{ end }}
+    </div>
+  </div>
+
+  <div class="home-body">
+
+    {{/* ── Featured Article ────────────────────────────────────────────────── */}}
+    {{ with $featuredArticle }}
+    {{ $featured := . }}
+    <div class="featured-post">
+      {{ with $featured.Params.image }}
+        {{ partial "post-image.html" (dict "page" $featured "src" . "width" "1200" "alt" $featured.Title "class" "featured-post-image-link" "href" $featured.RelPermalink "loading" "eager") }}
+      {{ end }}
+      <div class="featured-post-body">
+        <span class="section-chip">{{ i18n "featured_article" }}</span>
+        <h2><a href="{{ $featured.RelPermalink }}">{{ $featured.Title }}</a></h2>
+        {{ with $featured.Description }}<p class="featured-post-desc">{{ . }}</p>{{ end }}
+        <div class="card-byline">
+          {{ with $featured.Params.author }}<span>{{ . }}</span>{{ end }}
+        </div>
+        <a class="featured-post-cta" href="{{ $featured.RelPermalink }}">{{ i18n "read_article" }}</a>
+      </div>
+    </div>
+    {{ end }}
+
+    {{/* ── Two-column layout ───────────────────────────────────────────────── */}}
+    <div class="home-main-cols">
+
+      {{/* ════ LEFT COLUMN ════ */}}
+      <div class="home-main-col home-main-col--primary">
+
+        {{/* 1 · Latest News — 3-column cards */}}
+        {{ if $allNews }}
+        <div class="home-section">
+          <div class="section-header">
+            <h2 class="section-label">{{ i18n "latest_news" }}</h2>
+            <a class="section-viewall" href="{{ with site.GetPage "news" }}{{ .RelPermalink }}{{ else }}/news/{{ end }}">{{ i18n "view_all" }}</a>
+          </div>
+          <div class="post-grid post-grid--3">
+            {{ range first 3 $allNews }}
+            {{ $card := . }}
+            <article class="post-card">
+              {{ with .Params.image }}
+                {{ partial "post-image.html" (dict "page" $card "src" . "width" "600" "alt" $card.Title "class" "post-card-image-link" "href" $card.RelPermalink "loading" "eager") }}
+              {{ end }}
+              <div class="post-card-body">
+                <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+                {{ with .Description }}<p class="post-card-desc">{{ . }}</p>{{ end }}
+                <div class="card-byline">
+                  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+                </div>
+              </div>
+            </article>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+        {{/* 2 · More News — thumbnail rows */}}
+        {{ $moreNews := after 3 $allNews }}
+        {{ if $moreNews }}
+        <div class="home-section">
+          <div class="section-header">
+            <h2 class="section-label">{{ i18n "more_news" }}</h2>
+            <a class="section-viewall" href="{{ with site.GetPage "news" }}{{ .RelPermalink }}{{ else }}/news/{{ end }}">{{ i18n "view_all" }}</a>
+          </div>
+          <div class="news-list">
+            {{ range first 5 $moreNews }}
+            {{ $n := . }}
+            <article class="news-row">
+              {{ with .Params.image }}
+              <a class="news-row-thumb" href="{{ $n.RelPermalink }}">
+                {{ partial "post-image.html" (dict "page" $n "src" . "width" "300" "alt" $n.Title "loading" "lazy") }}
+              </a>
+              {{ end }}
+              <div class="news-row-body">
+                <h3><a href="{{ $n.RelPermalink }}">{{ $n.Title }}</a></h3>
+                {{ with $n.Description }}<p>{{ . | truncate 110 }}</p>{{ end }}
+                <div class="card-byline">
+                  <time datetime="{{ $n.Date.Format "2006-01-02" }}">{{ $n.Date.Format "Jan 2, 2006" }}</time>
+                </div>
+              </div>
+            </article>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+        {{/* 3 · More Articles — card grid */}}
+        {{ $restArticles := after 1 $allArticles }}
+        {{ if $restArticles }}
+        <div class="home-section">
+          <div class="section-header">
+            <h2 class="section-label">{{ i18n "more_articles" }}</h2>
+            <a class="section-viewall" href="{{ with site.GetPage "articles" }}{{ .RelPermalink }}{{ else }}/articles/{{ end }}">{{ i18n "view_all" }}</a>
+          </div>
+          <div class="post-grid post-grid--3">
+            {{ range first 3 $restArticles }}
+            {{ $card := . }}
+            <article class="post-card">
+              {{ with .Params.image }}
+                {{ partial "post-image.html" (dict "page" $card "src" . "width" "600" "alt" $card.Title "class" "post-card-image-link" "href" $card.RelPermalink "loading" "lazy") }}
+              {{ end }}
+              <div class="post-card-body">
+                <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+                {{ with .Description }}<p class="post-card-desc">{{ . }}</p>{{ end }}
+                <div class="card-byline">
+                  {{ with .Params.author }}<span>{{ . }}</span>{{ end }}
+                </div>
+              </div>
+            </article>
+            {{ end }}
+          </div>
+        </div>
+        {{ end }}
+
+      </div>{{/* end left column */}}
+
+      {{/* ════ RIGHT COLUMN (sidebar) ════ */}}
+      <div class="home-main-col home-main-col--sidebar">
+
+        {{/* 1 · Search */}}
+        <div class="sidebar-widget">
+          <div class="section-header">
+            <h2 class="section-label">{{ i18n "search_title" }}</h2>
+          </div>
+          <form class="search-form" action="{{ "search/" | relLangURL }}" method="get">
+            <div class="search-input-wrap">
+              <input type="search" name="q" placeholder="{{ i18n "search_placeholder" }}" class="search-input" autocomplete="off">
+              <button type="submit" class="search-btn" aria-label="{{ i18n "search_title" }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>{{/* end sidebar */}}
+
+    </div>{{/* end home-main-cols */}}
+
+  </div>
+</section>
+
+{{- $sliderJS := resources.Get "js/slider.js" | minify | fingerprint -}}
+<script src="{{ $sliderJS.RelPermalink }}" integrity="{{ $sliderJS.Data.Integrity }}" crossorigin="anonymous" defer></script>
+{{ end }}

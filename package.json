@@ -1,0 +1,8 @@
+{
+  "name": "allindiakkms-cms-assets",
+  "private": true,
+  "version": "1.0.0",
+  "devDependencies": {
+    "@sveltia/cms": "0.167.3"
+  }
+}

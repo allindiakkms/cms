@@ -1,0 +1,84 @@
+backend:
+  name: github
+  repo: allindiakkms/cms
+  branch: main
+  base_url: https://allindiakkms-auth.allindiakkms.workers.dev
+
+site_url: https://allindiakkms.github.io/cms/
+display_url: https://allindiakkms.github.io/cms/
+logo_url: /cms/logo.png
+
+collections:
+  - name: articles_en
+    label: Articles (English)
+    folder: content/en/articles
+    create: true
+    slug: "{{fields.slug}}"
+    path: "{{fields.slug}}/index"
+    preview_path: articles/{{fields.slug}}/
+    fields: &post_fields
+      - { label: Title, name: title, widget: string }
+      - label: URL Slug
+        name: slug
+        widget: string
+        pattern: ['^(?=.{1,80}$)[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers, and hyphens."]
+      - { label: Publish Date, name: date, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Author, name: author, widget: string, default: "AIKKMS" }
+      - { label: Categories, name: categories, widget: list, required: false }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - label: Hero Image URL
+        name: image
+        widget: string
+        required: false
+        hint: "Upload through the Admin Portal, copy the R2 URL, and paste it here."
+      - { label: Show on Home Slider, name: show_in_slider, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: news_en
+    label: News (English)
+    folder: content/en/news
+    create: true
+    slug: "{{fields.slug}}"
+    path: "{{fields.slug}}/index"
+    preview_path: news/{{fields.slug}}/
+    fields: *post_fields
+
+  - name: articles_hi
+    label: लेख (हिन्दी)
+    folder: content/hi/articles
+    create: true
+    slug: "{{fields.slug}}"
+    path: "{{fields.slug}}/index"
+    preview_path: hi/articles/{{fields.slug}}/
+    fields: *post_fields
+
+  - name: news_hi
+    label: समाचार (हिन्दी)
+    folder: content/hi/news
+    create: true
+    slug: "{{fields.slug}}"
+    path: "{{fields.slug}}/index"
+    preview_path: hi/news/{{fields.slug}}/
+    fields: *post_fields
+
+  - name: pages
+    label: Pages
+    files:
+      - name: about_en
+        label: About (English)
+        file: content/en/about.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Draft, name: draft, widget: boolean, default: false }
+          - { label: Body, name: body, widget: markdown }
+      - name: about_hi
+        label: हमारे बारे में (हिन्दी)
+        file: content/hi/about.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Draft, name: draft, widget: boolean, default: false }
+          - { label: Body, name: body, widget: markdown }

@@ -1,0 +1,147 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; base-uri 'self'; form-action 'self'; child-src 'none'; manifest-src 'self'">
+<title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ site.Title }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<link rel="icon" type="image/png" href="{{ "favicon.png" | relURL }}">
+
+{{/* Hugo Pipes: SCSS → transpile → minify → fingerprint */}}
+{{ $opts := dict "targetPath" "css/main.css" "enableSourceMap" (not hugo.IsProduction) }}
+{{ $style := resources.Get "scss/main.scss" | toCSS $opts | minify | fingerprint }}
+<link rel="stylesheet"
+      href="{{ $style.RelPermalink }}"
+      integrity="{{ $style.Data.Integrity }}"
+      crossorigin="anonymous">
+
+{{/* ── Site Settings: fonts + CSS custom properties ── */}}
+{{ $s := hugo.Data.settings }}
+{{ $bodyFont           := default "Inter" $s.body_font }}
+{{ $headingFont        := default "Inter" $s.heading_font }}
+{{ $hindiBodyFont    := default "Noto Sans Devanagari" $s.hindi_body_font }}
+{{ $hindiHeadingFont := default "Noto Sans Devanagari" $s.hindi_heading_font }}
+{{ $primary     := default "#1a1a2e" $s.color_primary }}
+{{ $accent      := default "#e94560" $s.color_accent }}
+{{ $textColor   := default "#333333" $s.color_text }}
+{{ $navColor    := default "#b91c1c" $s.color_nav }}
+{{ $bg          := default "#ffffff" $s.color_bg }}
+{{ $surface     := default "#f1f5f9" $s.color_surface }}
+{{ $border      := default "#e2e8f0" $s.color_border }}
+{{ $muted       := default "#64748b" $s.color_muted }}
+{{ $subtle      := default "#94a3b8" $s.color_subtle }}
+{{ $preBg       := default "#1e293b" $s.color_pre_bg }}
+
+{{/* Load Google Fonts only when a non-system font is chosen */}}
+{{ $systemFonts := slice "system-ui" "sans-serif" "serif" "monospace" }}
+{{ if or (not (in $systemFonts $bodyFont)) (not (in $systemFonts $headingFont)) }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{ if eq $bodyFont $headingFont }}
+<link href="{{ printf "https://fonts.googleapis.com/css2?family=%s:wght@400;600;700&display=swap" ($bodyFont | replaceRE " " "+") | safeURL }}" rel="stylesheet">
+{{ else }}
+<link href="{{ printf "https://fonts.googleapis.com/css2?family=%s:wght@400;600&family=%s:wght@700&display=swap" ($bodyFont | replaceRE " " "+") ($headingFont | replaceRE " " "+") | safeURL }}" rel="stylesheet">
+{{ end }}
+{{ end }}
+
+{{/* Load Hindi/Devanagari fonts from settings */}}
+{{ $hindiFontsToLoad := slice }}
+{{ if not (in $systemFonts $hindiBodyFont) }}
+  {{ $hindiFontsToLoad = $hindiFontsToLoad | append $hindiBodyFont }}
+{{ end }}
+{{ if and (not (in $systemFonts $hindiHeadingFont)) (ne $hindiHeadingFont $hindiBodyFont) }}
+  {{ $hindiFontsToLoad = $hindiFontsToLoad | append $hindiHeadingFont }}
+{{ end }}
+{{ if gt (len $hindiFontsToLoad) 0 }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{ range $hindiFontsToLoad }}
+<link href="{{ printf "https://fonts.googleapis.com/css2?family=%s:wght@400;700&display=swap" (. | replaceRE " " "+") | safeURL }}" rel="stylesheet">
+{{ end }}
+{{ end }}
+
+<style>
+:root {
+  --font-body:     '{{ $bodyFont }}', system-ui, sans-serif;
+  --font-heading:  '{{ $headingFont }}', system-ui, sans-serif;
+  --color-primary: {{ $primary }};
+  --color-accent:  {{ $accent }};
+  --color-text:    {{ $textColor }};
+  --color-bg:      {{ $bg }};
+  --color-surface: {{ $surface }};
+  --color-border:  {{ $border }};
+  --color-muted:   {{ $muted }};
+  --color-subtle:  {{ $subtle }};
+  --color-pre-bg:  {{ $preBg }};
+  --color-nav:            {{ $navColor }};
+  --font-hindi-body:    '{{ $hindiBodyFont }}', sans-serif;
+  --font-hindi-heading: '{{ $hindiHeadingFont }}', sans-serif;
+}
+</style>
+
+{{/* Per-page Google Font (article-level override) — only allow known-safe Google Fonts URLs */}}
+{{ with .Params.extra_font }}
+{{ if strings.HasPrefix . "https://fonts.googleapis.com/" }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="{{ . }}" rel="stylesheet">
+{{ end }}
+{{ end }}
+
+{{/* Hugo internal SEO templates */}}
+{{ template "_internal/opengraph.html" . }}
+
+{{/* Twitter / X card — full custom implementation so card type is correct */}}
+<meta name="twitter:title" content="{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ site.Title }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+{{ with site.Params.social.twitter }}<meta name="twitter:site" content="@{{ . }}">{{ end }}
+
+{{/* og:image + twitter:image — bridges .Params.image (string) to OG/Twitter.
+     Always emits og:image: uses absURL as guaranteed fallback when the image
+     is not in the local page bundle (e.g. content from external repos). */}}
+{{ if and .IsPage (not .Params.images) .Params.image }}
+  {{ $src := .Params.image }}
+  {{ if hasPrefix $src "http" }}
+    {{/* External URL (Unsplash, Cloudinary, etc.) — use directly */}}
+    <meta property="og:image" content="{{ $src }}">
+    <meta property="og:image:secure_url" content="{{ $src }}">
+    <meta property="og:image:alt" content="{{ .Title }}">
+    <meta name="twitter:image" content="{{ $src }}">
+    <meta name="twitter:card" content="summary_large_image">
+  {{ else }}
+    {{ $isSVG := strings.HasSuffix (lower $src) ".svg" }}
+    {{ if $isSVG }}
+      {{/* SVG — absURL fallback, override with bundle permalink if available */}}
+      {{ $imgURL := $src | absURL }}
+      {{ with .Resources.GetMatch $src }}{{ $imgURL = .Permalink }}{{ end }}
+      <meta property="og:image" content="{{ $imgURL }}">
+      <meta property="og:image:secure_url" content="{{ $imgURL }}">
+      <meta property="og:image:alt" content="{{ .Title }}">
+      <meta name="twitter:image" content="{{ $imgURL }}">
+      <meta name="twitter:card" content="summary_large_image">
+    {{ else }}
+      {{/* Local raster — try to resize; always fall back to absURL so tag is never missing */}}
+      {{ $imgURL := $src | absURL }}
+      {{ $width  := "" }}
+      {{ $height := "" }}
+      {{ with .Resources.GetMatch $src }}
+        {{ $img   := .Resize "1200x630 webp" }}
+        {{ $imgURL = $img.Permalink }}
+        {{ $width  = "1200" }}
+        {{ $height = "630" }}
+      {{ end }}
+      <meta property="og:image" content="{{ $imgURL }}">
+      <meta property="og:image:secure_url" content="{{ $imgURL }}">
+      <meta property="og:image:alt" content="{{ .Title }}">
+      {{ if $width }}
+      <meta property="og:image:width" content="{{ $width }}">
+      <meta property="og:image:height" content="{{ $height }}">
+      {{ end }}
+      <meta name="twitter:image" content="{{ $imgURL }}">
+      <meta name="twitter:card" content="summary_large_image">
+    {{ end }}
+  {{ end }}
+{{ else }}
+  <meta name="twitter:card" content="summary">
+{{ end }}
+
+{{/* JSON-LD structured data */}}
+{{ partial "jsonld.html" . }}

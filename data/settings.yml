@@ -1,0 +1,33 @@
+articles_show_categories: false
+articles_show_tags: false
+articles_show_author: false
+articles_show_date: false
+articles_show_updated: false
+articles_show_read_time: false
+articles_show_hero_image: true
+articles_show_description: true
+articles_show_prev_next: true
+news_show_categories: true
+news_show_tags: false
+news_show_author: true
+news_show_date: true
+news_show_updated: false
+news_show_hero_image: true
+news_show_description: true
+news_show_prev_next: true
+news_list_page_size: 8
+show_language_switcher: true
+body_font: Inter
+heading_font: Inter
+hindi_body_font: Noto Sans Devanagari
+hindi_heading_font: Noto Sans Devanagari
+color_primary: '#1f2937'
+color_accent: '#dc2626'
+color_text: '#374151'
+color_bg: '#ffffff'
+color_surface: '#f9fafb'
+color_border: '#e5e7eb'
+color_muted: '#6b7280'
+color_subtle: '#6b7280'
+color_pre_bg: '#1e1e1e'
+color_nav: '#991b1b'

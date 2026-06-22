@@ -1,0 +1,35 @@
+<header class="site-header" id="siteHeader">
+  {{ $s := hugo.Data.settings }}
+  <nav class="site-nav">
+    <a class="site-title" href="{{ site.Home.RelPermalink }}">
+      <img src="{{ "logo.png" | relURL }}" alt="{{ site.Title }} logo" class="site-logo">
+      <span class="site-title-text">{{ site.Title }}</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      {{ with site.Menus.main }}
+        {{ range . }}
+        <li><a href="{{ .URL | relURL }}"{{ if $.IsMenuCurrent "main" . }} aria-current="page"{{ end }}>{{ i18n .Identifier | default .Name }}</a></li>
+        {{ end }}
+      {{ end }}
+      {{ if $s.show_language_switcher }}
+      <li class="nav-lang-item">
+        {{ $currentLang := site.Language.Lang }}
+        {{ $urls := dict $currentLang .RelPermalink }}
+        {{ range .Translations }}
+          {{ $urls = merge $urls (dict .Language.Lang .RelPermalink) }}
+        {{ end }}
+        {{ range hugo.Sites }}
+          {{ $lang := .Language.Lang }}
+          {{ $url := index $urls $lang | default .Home.RelPermalink }}
+          <a href="{{ $url }}"{{ if eq $lang $currentLang }} class="is-active"{{ end }}>{{ .Language.Label }}</a>
+        {{ end }}
+      </li>
+      {{ end }}
+    </ul>
+  </nav>
+</header>
+{{- $navJS := resources.Get "js/nav.js" | minify | fingerprint -}}
+<script src="{{ $navJS.RelPermalink }}" integrity="{{ $navJS.Data.Integrity }}" crossorigin="anonymous" defer></script>

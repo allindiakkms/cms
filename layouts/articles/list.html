@@ -1,0 +1,138 @@
+{{ define "main" }}
+
+{{ $allPages  := .Pages.ByLastmod.Reverse }}
+{{ $grouped   := $allPages.GroupByLastmod "January 2006" }}
+{{ $showCount := 4 }}{{/* months visible by default */}}
+
+<div class="list-hero{{ if eq .Lang "hi" }} hindi-content{{ end }}">
+  <div class="list-hero-inner list-hero-inner--split">
+    <h1 class="list-hero-title">{{ .Title }}</h1>
+    {{ if $grouped }}
+    <div class="month-filter-controls" id="monthFilter">
+      <button class="month-nav-btn" id="monthPrev" aria-label="{{ i18n "older_months" }}">{{ i18n "older_months" }}</button>
+      <select class="month-select" id="monthSelect">
+        {{ range $i, $g := $grouped }}
+        <option value="{{ $g.Key | urlize }}"{{ if eq $i 0 }} selected{{ end }}>{{ $g.Key }}</option>
+        {{ end }}
+      </select>
+      <button class="month-nav-btn" id="monthNext" aria-label="{{ i18n "newer_months" }}">{{ i18n "newer_months" }}</button>
+    </div>
+    {{ end }}
+  </div>
+</div>
+
+<div class="content-wrap content-wrap--wide{{ if eq .Lang "hi" }} hindi-content{{ end }}">
+  {{ if $grouped }}
+
+  {{/* ── Month groups ─────────────────────────────────────────────────────── */}}
+  {{ range $i, $group := $grouped }}
+  {{ $pages := $group.Pages.ByLastmod.Reverse }}
+  {{ $primary := "" }}
+  {{ range $pages }}
+    {{ if and (not $primary) (eq .Params.priority "primary") }}
+      {{ $primary = . }}
+    {{ end }}
+  {{ end }}
+  {{ if not $primary }}
+    {{ $primary = index $pages 0 }}
+  {{ end }}
+
+  {{ $remaining := slice }}
+  {{ range $pages }}
+    {{ if ne .RelPermalink $primary.RelPermalink }}
+      {{ $remaining = $remaining | append . }}
+    {{ end }}
+  {{ end }}
+
+  {{ $secondary := slice }}
+  {{ $tertiary := slice }}
+  {{ range $remaining }}
+    {{ $priority := .Params.priority | default "" }}
+    {{ if and (lt (len $secondary) 4) (or (eq $priority "primary") (eq $priority "secondary")) }}
+      {{ $secondary = $secondary | append . }}
+    {{ else }}
+      {{ $tertiary = $tertiary | append . }}
+    {{ end }}
+  {{ end }}
+
+  <section class="month-group{{ if ge $i $showCount }} month-group--hidden{{ end }}"
+           data-month="{{ $group.Key | urlize }}"
+           id="month-{{ $group.Key | urlize }}">
+
+    <div class="month-group-header">
+      <h2 class="month-group-title">{{ $group.Key }}</h2>
+    </div>
+
+    {{/* ── Primary articles — each gets its own full-width hero row ────── */}}
+    {{ with $primary }}
+    {{ $article := . }}
+    <div class="month-primary">
+      {{ with .Params.image }}
+      <a class="month-primary-img" href="{{ $article.RelPermalink }}">
+        {{ partial "post-image.html" (dict "page" $article "src" . "width" "900" "alt" $article.Title "loading" "eager") }}
+      </a>
+      {{ end }}
+      <div class="month-primary-body">
+        <h2 class="month-primary-title"><a href="{{ $article.RelPermalink }}">{{ $article.Title }}</a></h2>
+        {{ with $article.Description }}<p class="month-primary-desc">{{ . }}</p>{{ end }}
+        <div class="card-byline">
+          <span>{{ math.Max 1 (math.Round (div (countwords $article.Content) 200.0)) }} {{ i18n "min_read" }}</span>
+        </div>
+        <a class="featured-post-cta" href="{{ $article.RelPermalink }}">{{ i18n "read_article" }}</a>
+      </div>
+    </div>
+    {{ end }}
+
+    {{/* ── Secondary articles ───────────────────────────────────────────── */}}
+    {{ if $secondary }}
+    <div class="month-secondary-grid">
+      {{ range $secondary }}
+      {{ $card := . }}
+      <article class="post-card">
+        {{ with .Params.image }}
+          {{ partial "post-image.html" (dict "page" $card "src" . "width" "600" "alt" $card.Title "class" "post-card-image-link" "href" $card.RelPermalink "loading" "lazy") }}
+        {{ end }}
+        <div class="post-card-body">
+          <h3><a href="{{ $card.RelPermalink }}">{{ $card.Title }}</a></h3>
+          {{ with $card.Description }}<p class="post-card-desc">{{ . }}</p>{{ end }}
+          <div class="card-byline">
+            <span>{{ math.Max 1 (math.Round (div (countwords $card.Content) 200.0)) }} {{ i18n "min_read" }}</span>
+          </div>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    {{/* ── Tertiary articles ────────────────────────────────────────────── */}}
+    {{ if $tertiary }}
+    <div class="month-tertiary-wrap">
+      <h3 class="month-tertiary-label">{{ i18n "also_this_month" }}</h3>
+      <div class="month-tertiary-list">
+        {{ range $tertiary }}
+        {{ $tart := . }}
+        <a class="month-tertiary-item" href="{{ .RelPermalink }}">
+          {{ with .Params.image }}
+          <div class="month-tertiary-thumb">
+            {{ partial "post-image.html" (dict "page" $tart "src" . "width" "120" "alt" $tart.Title "loading" "lazy") }}
+          </div>
+          {{ end }}
+          <span class="month-tertiary-title">{{ .Title }}</span>
+        </a>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
+
+  </section>
+  {{ end }}
+
+  {{ else }}
+  <p class="no-posts">{{ i18n "no_articles" }}</p>
+  {{ end }}
+</div>
+
+{{- $mfJS := resources.Get "js/month-filter.js" | minify | fingerprint -}}
+<script src="{{ $mfJS.RelPermalink }}" integrity="{{ $mfJS.Data.Integrity }}" crossorigin="anonymous" defer></script>
+
+{{ end }}

@@ -1,0 +1,106 @@
+{{ define "main" }}
+{{ $s := hugo.Data.settings }}
+{{ $pageSize := $s.news_list_page_size | default 20 }}
+
+{{ $paginator   := .Paginate (.Pages.ByLastmod.Reverse) $pageSize }}
+{{ $pages       := $paginator.Pages }}
+{{ $isFirstPage := eq $paginator.PageNumber 1 }}
+
+<div class="list-hero{{ if eq .Lang "hi" }} hindi-content{{ end }}">
+  <div class="list-hero-inner">
+    <h1 class="list-hero-title">{{ .Title }}</h1>
+  </div>
+</div>
+
+<div class="content-wrap content-wrap--wide{{ if eq .Lang "hi" }} hindi-content{{ end }}">
+  {{ if $pages }}
+
+  {{ if $isFirstPage }}
+
+  {{/* ── Lead story ─────────────────────────────────────────────────────── */}}
+  {{ $lead := index $pages 0 }}
+  <div class="news-lead">
+    {{ with $lead.Params.image }}
+    <a class="news-lead-img" href="{{ $lead.RelPermalink }}">
+      {{ partial "post-image.html" (dict "page" $lead "src" . "width" "900" "alt" $lead.Title "loading" "eager") }}
+    </a>
+    {{ end }}
+    <div class="news-lead-body">
+      <div class="news-label">{{ i18n "lead_story" }}</div>
+      <h2 class="news-lead-title"><a href="{{ $lead.RelPermalink }}">{{ $lead.Title }}</a></h2>
+      {{ with $lead.Description }}<p class="news-lead-desc">{{ . }}</p>{{ end }}
+      <div class="card-byline">
+        <time datetime="{{ $lead.Date.Format "2006-01-02" }}">{{ $lead.Date.Format "January 2, 2006" }}</time>
+      </div>
+      <a class="news-lead-cta" href="{{ $lead.RelPermalink }}">{{ i18n "read_story" }}</a>
+    </div>
+  </div>
+
+  {{/* ── Featured grid: next 6 items in a 3×2 grid ──────────────────── */}}
+  {{ $featured := first 6 (after 1 $pages) }}
+  {{ if $featured }}
+  <div class="news-featured-grid">
+    {{ range $featured }}
+    {{ $card := . }}
+    <article class="post-card">
+      {{ with .Params.image }}
+        {{ partial "post-image.html" (dict "page" $card "src" . "width" "700" "alt" $card.Title "class" "post-card-image-link" "href" $card.RelPermalink "loading" "lazy") }}
+      {{ end }}
+      <div class="post-card-body">
+        <h3><a href="{{ $card.RelPermalink }}">{{ $card.Title }}</a></h3>
+        {{ with $card.Description }}<p class="post-card-desc">{{ . }}</p>{{ end }}
+        <div class="card-byline">
+          <time datetime="{{ $card.Date.Format "2006-01-02" }}">{{ $card.Date.Format "Jan 2, 2006" }}</time>
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{/* ── Compact list: items 8+ on page 1 ──────────────────────── */}}
+  {{ $compact := after 7 $pages }}
+  {{ if $compact }}
+  <div class="news-compact-list">
+    {{ range $compact }}
+    {{ $p := . }}
+    <a class="news-compact-item" href="{{ .RelPermalink }}">
+      {{ with .Params.image }}
+      <div class="news-compact-thumb">
+        {{ partial "post-image.html" (dict "page" $p "src" . "width" "160" "alt" $p.Title "loading" "lazy") }}
+      </div>
+      {{ end }}
+      <span class="news-compact-title">{{ .Title }}</span>
+    </a>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ else }}
+
+  {{/* ── Page 2+: compact list ──────────────────────────────────── */}}
+  <div class="news-compact-list news-compact-list--page">
+    {{ range $pages }}
+    {{ $p := . }}
+    <a class="news-compact-item" href="{{ .RelPermalink }}">
+      {{ with .Params.image }}
+      <div class="news-compact-thumb">
+        {{ partial "post-image.html" (dict "page" $p "src" . "width" "160" "alt" $p.Title "loading" "lazy") }}
+      </div>
+      {{ end }}
+      <span class="news-compact-title">{{ .Title }}</span>
+    </a>
+    {{ end }}
+  </div>
+
+  {{ end }}
+
+  {{/* ── Pagination ─────────────────────────────────────────────────────── */}}
+  {{ template "_internal/pagination.html" . }}
+
+  {{ else }}
+  <p class="no-posts">{{ i18n "no_news" }}</p>
+  {{ end }}
+</div>
+
+{{ end }}

@@ -1,0 +1,78 @@
+[news]
+other = "समाचार"
+[articles]
+other = "लेख"
+[read_article]
+other = "लेख पढ़ें →"
+[read_story]
+other = "समाचार पढ़ें →"
+[view_all]
+other = "सभी देखें →"
+[updated]
+other = "अपडेट"
+[min_read]
+other = "मिनट"
+[featured_article]
+other = "प्रमुख लेख"
+[latest_news]
+other = "नवीनतम समाचार"
+[more_news]
+other = "और समाचार"
+[more_articles]
+other = "और लेख"
+[lead_story]
+other = "मुख्य समाचार"
+[no_news]
+other = "अभी कोई समाचार नहीं।"
+[no_articles]
+other = "अभी कोई लेख नहीं।"
+[tags]
+other = "टैग"
+[tags_label]
+other = "टैग:"
+[contents]
+other = "विषय सूची"
+[prev]
+other = "← पिछला"
+[next]
+other = "अगला →"
+[search_title]
+other = "खोज"
+[search_placeholder]
+other = "लेख और समाचार खोजें…"
+[search_no_results]
+other = "कोई परिणाम नहीं मिला"
+[search_enter_term]
+other = "ऊपर खोज शब्द लिखें।"
+[search_unavailable]
+other = "खोज अभी उपलब्ध नहीं है।"
+[share]
+other = "साझा करें"
+[footer_twitter]
+other = "X"
+[footer_github]
+other = "GitHub"
+[also_this_month]
+other = "इस महीने और"
+[month_filter_label]
+other = "महीने के अनुसार"
+[older_months]
+other = "← पुराने"
+[newer_months]
+other = "नए →"
+[priority_primary]
+other = "प्रमुख"
+[priority_secondary]
+other = "द्वितीय"
+[not_found_title]
+other = "पृष्ठ नहीं मिला"
+[not_found_message]
+other = "यह पृष्ठ उपलब्ध नहीं है या स्थानांतरित हो गया है।"
+[go_home]
+other = "मुखपृष्ठ"
+[skip_to_content]
+other = "मुख्य सामग्री पर जाएँ"
+[search_result_for]
+other = "परिणाम"
+[search_results_for]
+other = "परिणाम"

@@ -1,0 +1,83 @@
+baseURL = "https://allindiakkms.github.io/cms/"
+canonifyURLs = false
+relativeURLs = false
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+title = "All India Kisan Khet Majdoor Sangathan"
+cleanDestinationDir = true
+enableRobotsTXT = true
+
+[languages.en]
+  label = "English"
+  locale = "en-US"
+  weight = 1
+  contentDir = "content/en"
+
+  [[languages.en.menus.main]]
+    identifier = "articles"
+    name = "Articles"
+    pageRef = "/articles"
+    weight = 10
+
+  [[languages.en.menus.main]]
+    identifier = "news"
+    name = "News"
+    pageRef = "/news"
+    weight = 20
+
+  [[languages.en.menus.main]]
+    identifier = "about"
+    name = "About"
+    pageRef = "/about"
+    weight = 30
+
+[languages.hi]
+  label = "हिन्दी"
+  locale = "hi-IN"
+  weight = 2
+  contentDir = "content/hi"
+
+  [[languages.hi.menus.main]]
+    identifier = "articles"
+    name = "लेख"
+    pageRef = "/articles"
+    weight = 10
+
+  [[languages.hi.menus.main]]
+    identifier = "news"
+    name = "समाचार"
+    pageRef = "/news"
+    weight = 20
+
+  [[languages.hi.menus.main]]
+    identifier = "about"
+    name = "हमारे बारे में"
+    pageRef = "/about"
+    weight = 30
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[params]
+  description = "News, articles, and updates from All India Kisan Khet Majdoor Sangathan."
+  defaultAuthor = "AIKKMS"
+
+[related]
+  threshold = 60
+  includeNewer = true
+  [[related.indices]]
+    name = "tags"
+    weight = 80
+  [[related.indices]]
+    name = "categories"
+    weight = 60
+  [[related.indices]]
+    name = "date"
+    weight = 10

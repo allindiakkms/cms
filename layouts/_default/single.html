@@ -1,0 +1,25 @@
+{{ define "main" }}
+  <div class="content-wrap">
+  <article class="single">
+    <header class="post-header">
+      <h1>{{ .Title }}</h1>
+    </header>
+    {{ with .Params.thumbnail }}
+      {{ $img := $.Resources.GetMatch . }}
+      {{ if $img }}
+        {{ $md := $img.Resize "768x webp" }}
+        <figure>
+          <img src="{{ $md.RelPermalink }}" alt="{{ $.Title }}"
+               width="{{ $md.Width }}" height="{{ $md.Height }}"
+               loading="lazy" decoding="async">
+        </figure>
+      {{ else }}
+        <figure><img src="{{ . }}" alt="{{ $.Title }}" loading="lazy" decoding="async"></figure>
+      {{ end }}
+    {{ end }}
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+  </article>
+  </div>
+{{ end }}

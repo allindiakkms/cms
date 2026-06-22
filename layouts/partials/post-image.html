@@ -1,0 +1,67 @@
+{{/*
+  Renders a post image handling both local page bundle resources and external URLs.
+
+  Params:
+    .page    — the Hugo page context
+    .src     — value of .Params.image (local path or full URL)
+    .width   — resize width for local images (e.g. "1200")
+    .alt     — img alt text
+    .class   — wrapping <a> class
+    .href    — optional link href (omit to render without <a>)
+    .loading — "eager" or "lazy"
+*/}}
+
+{{ $src    := .src }}
+{{ $page   := .page }}
+{{ $width  := .width | default "1200" }}
+{{ $alt    := .alt | default $page.Title }}
+{{ $class  := .class }}
+{{ $href   := .href }}
+{{ $loading := .loading | default "lazy" }}
+{{ $requestedFit := .fit | default $page.Params.image_fit | default "auto" }}
+{{ $fit := cond (eq $requestedFit "contain") "contain" "cover" }}
+{{ $position := .position | default $page.Params.image_position | default "center" }}
+{{ $imageClass := printf "content-image content-image--fit-%s content-image--pos-%s" $fit $position }}
+{{ $imageStyle := printf "--image-fit: %s; --image-position: %s;" $fit $position }}
+
+{{ $isExternal := or (strings.HasPrefix $src "https://") (strings.HasPrefix $src "http://") }}
+
+{{ if $src }}
+  {{ if $href }}<a href="{{ $href }}" class="{{ $class }} image-frame image-frame--fit-{{ $fit }} image-frame--pos-{{ $position }}">{{ end }}
+
+  {{ if $isExternal }}
+    {{/* External URL (Unsplash, Cloudinary, etc.) — render as-is */}}
+    <img src="{{ $src }}"
+         class="{{ $imageClass }}"
+         style="{{ $imageStyle | safeCSS }}"
+         alt="{{ $alt }}"
+         loading="{{ $loading }}"
+         decoding="async">
+  {{ else }}
+    {{/* Local page bundle resource — process with Hugo Pipes */}}
+    {{ $img := $page.Resources.GetMatch $src }}
+    {{ if $img }}
+      {{/* Only resize raster images; SVGs and other formats render as-is */}}
+      {{ if reflect.IsImageResourceProcessable $img }}
+        {{ $resized := $img.Resize (printf "%sx webp" $width) }}
+        <img src="{{ $resized.RelPermalink }}"
+             class="{{ $imageClass }}"
+             style="{{ $imageStyle | safeCSS }}"
+             width="{{ $resized.Width }}"
+             height="{{ $resized.Height }}"
+             alt="{{ $alt }}"
+             loading="{{ $loading }}"
+             decoding="async">
+      {{ else }}
+        <img src="{{ $img.RelPermalink }}"
+             class="{{ $imageClass }}"
+             style="{{ $imageStyle | safeCSS }}"
+             alt="{{ $alt }}"
+             loading="{{ $loading }}"
+             decoding="async">
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ if $href }}</a>{{ end }}
+{{ end }}

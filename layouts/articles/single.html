@@ -1,0 +1,115 @@
+{{ define "main" }}
+{{ $s := hugo.Data.settings }}
+{{ $allArticles := where site.RegularPages "Section" "articles" }}
+{{ $related := first 4 ($allArticles.Related .) }}
+
+{{/* ── Hero image (contained within content wrap) ─────────────────────────── */}}
+<div class="content-wrap content-wrap--wide">
+{{ if $s.articles_show_hero_image }}
+{{ with .Params.image }}
+  <figure class="post-hero post-hero--article">
+    {{ partial "post-image.html" (dict "page" $ "src" . "width" "1400" "alt" $.Title "loading" "eager") }}
+    {{ with $.Params.image_caption }}
+      <figcaption>{{ . | markdownify }}</figcaption>
+    {{ end }}
+  </figure>
+{{ end }}
+{{ end }}
+  <div class="post-layout">
+
+    {{/* ════ MAIN COLUMN ════ */}}
+    <article class="post post-layout__main{{ if eq .Lang "hi" }} hindi-content{{ end }}">
+
+      <header class="post-header">
+        {{ if $s.articles_show_categories }}
+        <div class="post-meta">
+          {{ range .GetTerms "categories" }}
+            <a class="post-category" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          {{ end }}
+        </div>
+        {{ end }}
+
+        <h1 class="post-title">{{ .Title }}</h1>
+
+        {{ if $s.articles_show_description }}
+        {{ with .Description }}
+          <p class="post-description">{{ . }}</p>
+        {{ end }}
+        {{ end }}
+
+        {{ partial "post-byline.html" (dict "page" . "s" $s "prefix" "articles") }}
+      </header>
+
+      <div class="post-content">
+        {{ .Content }}
+      </div>
+
+      <footer class="post-footer">
+        {{ if $s.articles_show_tags }}
+        {{ with .GetTerms "tags" }}
+          <div class="post-footer-tags">
+            <strong>{{ i18n "tags_label" }}</strong>
+            <ul class="post-tags">
+              {{ range . }}
+                <li><a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a></li>
+              {{ end }}
+            </ul>
+          </div>
+        {{ end }}
+        {{ end }}
+
+        {{ partial "share-buttons.html" . }}
+
+        {{ if $s.articles_show_prev_next }}
+        <nav class="post-nav" aria-label="Post navigation">
+          {{ with .PrevInSection }}
+            <a class="post-nav-prev" href="{{ .RelPermalink }}">
+              <span class="post-nav-label">{{ i18n "prev" }}</span>
+              <span class="post-nav-title">{{ .Title }}</span>
+            </a>
+          {{ end }}
+          {{ with .NextInSection }}
+            <a class="post-nav-next" href="{{ .RelPermalink }}">
+              <span class="post-nav-label">{{ i18n "next" }}</span>
+              <span class="post-nav-title">{{ .Title }}</span>
+            </a>
+          {{ end }}
+        </nav>
+        {{ end }}
+      </footer>
+
+    </article>{{/* end main column */}}
+
+    {{/* ════ SIDEBAR ════ */}}
+    <aside class="post-layout__sidebar">
+
+      {{/* Table of Contents */}}
+      {{ if and .Params.toc .TableOfContents }}
+      <div class="sidebar-widget">
+        <h2 class="sidebar-widget-title">{{ i18n "contents" }}</h2>
+        <nav class="post-toc" aria-label="Table of contents">
+          {{ .TableOfContents }}
+        </nav>
+      </div>
+      {{ end }}
+
+      {{/* More Articles */}}
+      {{ if $related }}
+      <div class="sidebar-widget">
+        <h2 class="sidebar-widget-title">{{ i18n "more_articles" }}</h2>
+        <ul class="sidebar-related">
+          {{ range $related }}
+          <li>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            <span class="sidebar-related-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+          </li>
+          {{ end }}
+        </ul>
+      </div>
+      {{ end }}
+
+    </aside>
+
+  </div>{{/* end post-layout */}}
+</div>
+{{ end }}

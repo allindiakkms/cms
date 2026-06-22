@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: {{ "admin/" | relURL }}
+Allow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}

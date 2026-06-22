@@ -1,0 +1,116 @@
+[news]
+other = "News"
+
+[articles]
+other = "Articles"
+
+[read_article]
+other = "Read article →"
+
+[read_story]
+other = "Read story →"
+
+[view_all]
+other = "View all →"
+
+[updated]
+other = "Updated"
+
+[min_read]
+other = "min read"
+
+[featured_article]
+other = "Featured Article"
+
+[latest_news]
+other = "Latest News"
+
+[more_news]
+other = "More News"
+
+[more_articles]
+other = "More Articles"
+
+[lead_story]
+other = "Lead Story"
+
+[no_news]
+other = "No news yet."
+
+[no_articles]
+other = "No articles yet."
+
+[tags]
+other = "Tags"
+
+[tags_label]
+other = "Tags:"
+
+[contents]
+other = "Contents"
+
+[prev]
+other = "← Previous"
+
+[next]
+other = "Next →"
+
+[search_title]
+other = "Search"
+
+[search_placeholder]
+other = "Search articles, news…"
+
+[search_no_results]
+other = "No results found for"
+
+[search_enter_term]
+other = "Enter a search term above."
+
+[search_unavailable]
+other = "Search unavailable. Please try again later."
+
+[share]
+other = "Share"
+
+[footer_twitter]
+other = "X"
+
+[footer_github]
+other = "GitHub"
+
+[also_this_month]
+other = "Also this month"
+
+[month_filter_label]
+other = "Browse by month"
+
+[older_months]
+other = "← Older"
+
+[newer_months]
+other = "Newer →"
+
+[priority_primary]
+other = "Primary"
+
+[priority_secondary]
+other = "Secondary"
+
+[not_found_title]
+other = "Page not found"
+
+[not_found_message]
+other = "The page you’re looking for doesn’t exist or has been moved."
+
+[go_home]
+other = "Go to homepage"
+
+[skip_to_content]
+other = "Skip to main content"
+
+[search_result_for]
+other = "result for"
+
+[search_results_for]
+other = "results for"

@@ -1,0 +1,15 @@
+<footer class="site-footer">
+  <p>&copy; {{ now.Year }} {{ site.Title }}</p>
+  <ul class="social-links">
+    {{ with site.Params.social.twitter }}
+    <li>
+      <a href="https://x.com/{{ . }}" rel="noopener noreferrer" target="_blank">{{ i18n "footer_twitter" }}</a>
+    </li>
+    {{ end }}
+    {{ with site.Params.social.github }}
+    <li>
+      <a href="https://github.com/{{ . }}" rel="noopener noreferrer" target="_blank">{{ i18n "footer_github" }}</a>
+    </li>
+    {{ end }}
+  </ul>
+</footer>

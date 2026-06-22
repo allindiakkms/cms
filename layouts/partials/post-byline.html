@@ -1,0 +1,35 @@
+{{/*
+  Renders the post byline (author, date, updated, read time).
+
+  Params dict:
+    .page   — the Hugo page context
+    .s      — hugo.Data.settings
+    .prefix — "articles" or "news" (key prefix in settings)
+*/}}
+{{ $page   := .page }}
+{{ $s      := .s }}
+{{ $prefix := .prefix }}
+
+{{ $showAuthor   := index $s (printf "%s_show_author"   $prefix) }}
+{{ $showDate     := index $s (printf "%s_show_date"     $prefix) }}
+{{ $showUpdated  := index $s (printf "%s_show_updated"  $prefix) }}
+{{ $showReadTime := index $s (printf "%s_show_read_time" $prefix) }}
+
+<div class="post-byline">
+  {{ if $showAuthor }}
+    {{ with $page.Params.author }}<span class="post-author">{{ . }}</span>{{ end }}
+  {{ end }}
+  {{ if $showDate }}
+    <time class="post-date" datetime="{{ $page.Date.Format "2006-01-02" }}">
+      {{ $page.Date.Format "January 2, 2006" }}
+    </time>
+  {{ end }}
+  {{ if $showUpdated }}
+    {{ if ne $page.Lastmod $page.Date }}
+      <span class="post-updated">{{ i18n "updated" }} {{ $page.Lastmod.Format "January 2, 2006" }}</span>
+    {{ end }}
+  {{ end }}
+  {{ if $showReadTime }}
+    <span class="post-read-time">{{ math.Max 1 (math.Round (div (countwords $page.Content) 200.0)) }} {{ i18n "min_read" }}</span>
+  {{ end }}
+</div>
