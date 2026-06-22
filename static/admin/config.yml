@@ -4,8 +4,6 @@ backend:
   branch: main
   base_url: https://allindiakkms-auth.allindiakkms.workers.dev
 
-publish_mode: editorial_workflow
-
 site_url: https://allindiakkms.github.io/cms/
 display_url: https://allindiakkms.github.io/cms/
 logo_url: /cms/logo.png
