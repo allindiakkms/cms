@@ -3,23 +3,12 @@ title: The State - V.I.Lenin
 slug: the-state-lenin
 date: 2024-12-15T12:00:00+05:30
 draft: false
-<<<<<<< HEAD
 description: "A Lecture Delivered at the Sverdlov University"
 author: "AIKKMS"
 categories: [""]
 tags: [""]
 image: "https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/3d3122cf-9352-42b4-9fb1-26d5d2e5e729-Lenin_in_1920.jpg"
 show_in_slider: true
-=======
-description: An analysis of the severe price crash in ball copra and coconut products, the impact of global trade policies, and the demands raised by AIKKMS.
-author: AIKKMS
-categories:
-  - ''
-tags:
-  - ''
-image: https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/3d3122cf-9352-42b4-9fb1-26d5d2e5e729-Lenin_in_1920.jpg
-show_in_slider: false
->>>>>>> e8fc92d53c945fe289d6e40232de1fd22b27a524
 ---
 
 **_This article was published in ‘Peasants’ Voice’, (Vol.1. No.2) the then organ of AIKKMS_**
