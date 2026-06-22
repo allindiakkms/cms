@@ -2,7 +2,7 @@ backend:
   name: github
   repo: allindiakkms/cms
   branch: main
-  base_url: https://auth.allindiakkms.workers.dev
+  base_url: https://auth.all-india-kkms.workers.dev
 
 site_url: https://allindiakkms.github.io/cms/
 display_url: https://allindiakkms.github.io/cms/
