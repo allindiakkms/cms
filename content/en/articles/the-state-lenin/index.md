@@ -3,7 +3,7 @@ title: "The State - V.I.Lenin"
 slug: "the-state-lenin"
 date: 2024-12-15T12:00:00+05:30
 draft: false
-description: "An analysis of the severe price crash in ball copra and coconut products, the impact of global trade policies, and the demands raised by AIKKMS."
+description: "A Lecture Delivered at the Sverdlov University"
 author: "AIKKMS"
 categories: [""]
 tags: [""]
