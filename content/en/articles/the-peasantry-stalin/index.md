@@ -1,18 +1,20 @@
 ---
-title: "The Peasantry as an ally of Working Class - J V Stalin"
-slug: "the-peasantry-stalin"
+title: The Peasantry as an ally of Working Class - J V Stalin
+slug: the-peasantry-stalin
 date: 2024-12-15T12:00:00+05:30
 draft: false
-description: "Reply to Comrades P.F.Boltnev, V. I.Efremov and  V.I.Ivlev"
-author: "AIKKMS"
-categories: [""]
-tags: [""]
-image: "https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/f3643308-37f5-41f6-9137-dae7079ee5bb-Stalin_IMG.png"
+description: Reply to Comrades P.F.Boltnev, V. I.Efremov and  V.I.Ivlev
+author: AIKKMS
+categories:
+  - ''
+tags:
+  - ''
+image: https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/f3643308-37f5-41f6-9137-dae7079ee5bb-Stalin_IMG.png
+image_fit: contain
 show_in_slider: false
 ---
 
-
-*This article was published in ‘Peasants’ Voice’ (Vol.1. No.3), the then organ of AIKKMS*
+_This article was published in ‘Peasants’ Voice’ (Vol.1. No.3), the then organ of AIKKMS_
 
 ### Reply to Comrades P.F.Boltnev, V. I.Efremov and  V.I.Ivlev
 
