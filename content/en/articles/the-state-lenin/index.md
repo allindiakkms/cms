@@ -3,11 +3,14 @@ title: The State - V.I.Lenin
 slug: the-state-lenin
 date: 2024-12-15T12:00:00+05:30
 draft: false
-description: "A Lecture Delivered at the Sverdlov University"
-author: "AIKKMS"
-categories: [""]
-tags: [""]
-image: "https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/3d3122cf-9352-42b4-9fb1-26d5d2e5e729-Lenin_in_1920.jpg"
+description: A Lecture Delivered at the Sverdlov University
+author: AIKKMS
+categories:
+  - ''
+tags:
+  - ''
+image: https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/3d3122cf-9352-42b4-9fb1-26d5d2e5e729-Lenin_in_1920.jpg
+image_fit: contain
 show_in_slider: true
 ---
 
