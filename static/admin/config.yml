@@ -8,6 +8,12 @@ site_url: https://allindiakkms.github.io/cms/
 display_url: https://allindiakkms.github.io/cms/
 logo_url: /cms/logo.png
 
+# Sveltia requires a repository media folder even though production media is
+# uploaded through the secured Admin Portal and stored in R2. Content image
+# fields remain URL fields and should use R2 URLs.
+media_folder: static/cms-fallback-media
+public_folder: /cms/cms-fallback-media
+
 collections:
   - name: articles_en
     label: Articles (English)
