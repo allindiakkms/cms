@@ -3,7 +3,7 @@ title: Test article
 slug: test-article
 date: 2026-06-22T19:13:00+05:30
 draft: false
-description: test article
+description: test article description
 author: AIKKMS
 categories: []
 tags: []
