@@ -10,8 +10,9 @@ categories: ["Movements"]
 tags: ["AIKKMS", "Peasants", "Agricultural Policies", "West Bengal", "Capitalism"]
 image: "https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/a843597c-2203-4f04-bc2d-69ec57581925-stage-feb25-2025.jpg"
 show_in_slider: true
+---
 
-*This article was published in Peasants' Voice, (Vol.1, No.3), the then organ of AIKKMS.*
+*This article was published in Peasants' Voice, Vol.1, No.3, the then organ of AIKKMS.*
 
 **By Sankar Ghosh**
 
