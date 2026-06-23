@@ -4,15 +4,15 @@ backend:
   branch: main
   base_url: https://auth.aikkms.workers.dev
 
-site_url: https://allindiakkms.github.io/cms/
-display_url: https://allindiakkms.github.io/cms/
-logo_url: /cms/logo.png
+site_url: https://www.allindiakkms.com/
+display_url: https://www.allindiakkms.com/
+logo_url: /logo.png
 
 # Sveltia requires a repository media folder even though production media is
 # uploaded through the secured Admin Portal and stored in R2. Content image
 # fields remain URL fields and should use R2 URLs.
 media_folder: static/cms-fallback-media
-public_folder: /cms/cms-fallback-media
+public_folder: /cms-fallback-media
 
 collections:
   - name: articles_en
