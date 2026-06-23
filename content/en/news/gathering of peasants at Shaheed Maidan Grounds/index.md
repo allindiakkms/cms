@@ -12,8 +12,6 @@ image: "https://pub-0bfb0850459d48ddad97da511dbd8d2f.r2.dev/2026/06/a843597c-220
 show_in_slider: true
 ---
 
-*This article was published in Peasants' Voice, Vol.1, No.3, the then organ of AIKKMS.*
-
 **By Sankar Ghosh**
 
 *(Com. Shankar Ghosh, General Secretary of AIKKMS, addressed the massive gathering of peasants at Shaheed Maidan Grounds, Kolkata, West Bengal on February 25, 2025, organized by AIKKMS as a part of a nationwide protest against the burning problems of peasants and agricultural labourers.)*
