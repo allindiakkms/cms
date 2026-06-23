@@ -173,7 +173,8 @@ main {
     text-decoration: none;
     font-size: 1.4rem;
     font-weight: 700;
-    flex-shrink: 0;
+    flex: 1 1 auto;
+    min-width: 0;
     transition: font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     .site-logo {
@@ -190,6 +191,7 @@ main {
     .site-title-text {
       max-width: 32rem;
       line-height: 1.15;
+      overflow-wrap: anywhere;
     }
   }
 
@@ -219,6 +221,29 @@ main {
       span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
       span:nth-child(2) { opacity: 0; }
       span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .site-nav {
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .site-title {
+      width: calc(100% - 3rem);
+      font-size: 1.05rem;
+      align-items: flex-start;
+
+      .site-logo {
+        height: 2.5rem;
+        width: 2.5rem;
+        flex-shrink: 0;
+      }
+
+      .site-title-text {
+        max-width: none;
+      }
     }
   }
 
@@ -774,15 +799,70 @@ main {
 }
 
 .home {
+  --home-red: #b5121b;
+  --home-green: #14532d;
+  --home-black: #111111;
+  --home-border: #1f1f1f;
+
+  .featured-post {
+    border-bottom-color: var(--home-red);
+  }
+
+  .section-header {
+    border-bottom-color: var(--home-red);
+  }
+
+  .section-label,
+  .section-chip,
+  .section-viewall,
+  .featured-post-cta {
+    color: var(--home-red);
+  }
+
+  .section-chip {
+    background: rgba(181, 18, 27, 0.08);
+  }
+
+  .post-card,
+  .news-row {
+    border-color: var(--home-border);
+    background: #fff;
+  }
+
+  .post-card {
+    box-shadow: inset 0 3px 0 var(--home-red);
+  }
+
+  .news-row {
+    border-left: 4px solid var(--home-green);
+    padding-left: 0.9rem;
+  }
+
+  .post-card h3 a,
+  .featured-post h2 a,
+  .news-row-body h3 a {
+    color: var(--home-black);
+  }
+
+  .post-card h3 a:hover,
+  .featured-post h2 a:hover,
+  .news-row-body h3 a:hover,
+  .section-viewall:hover,
+  .featured-post-cta:hover {
+    color: var(--home-green);
+  }
+
   .post-grid--3 {
     align-items: stretch;
 
     .post-card {
-      aspect-ratio: 1 / 2;
-      min-height: 0;
+      height: 100%;
+      min-height: 25rem;
+      max-height: 32rem;
     }
 
     .post-card-body {
+      flex: 1 1 auto;
       min-height: 0;
       overflow: hidden;
     }
@@ -802,6 +882,17 @@ main {
       flex: 0 1 auto;
       min-height: 0;
       -webkit-line-clamp: 4;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .post-grid--3 .post-card {
+      min-height: 0;
+      height: auto;
+    }
+
+    .post-grid--3 .post-card-body {
+      min-height: clamp(12rem, 38vw, 16rem);
     }
   }
 }
